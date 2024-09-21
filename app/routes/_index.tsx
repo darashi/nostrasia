@@ -13,7 +13,7 @@ export const meta: MetaFunction = () => {
 export default function Index() {
 	return (
 		<div className="w-dvw h-dvh overflow-hidden flex justify-center items-center p-5 bg-gray-300 relative">
-			<div className="w-11/12">
+			<div className="w-11/12 lg:w-2/3">
 				<Nostr />
 			</div>
 			<div className="absolute bottom-3 right-3 text-md text-gray-500">
