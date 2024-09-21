@@ -49,7 +49,7 @@ export default function Note({ event, profiles, currentTime }: Props) {
 									{npub}
 								</div>
 							)}
-							<div className="text-sm lg:text-3xl text-gray-500">
+							<div className="text-sm lg:text-3xl mt-1 lg:mt-5 text-gray-500">
 								{time} ({relativeTime})
 							</div>
 						</div>
