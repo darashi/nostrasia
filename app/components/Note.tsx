@@ -22,7 +22,7 @@ export default function Note({ event, profiles, currentTime }: Props) {
 	const pictureUrl = metadata?.picture;
 
 	return (
-		<div className="w-full h-full card card-bordered shadow-xl bg-white overflow-hidden">
+		<div className="w-full h-full card card-bordered shadow-xl bg-white overflow-hidden lg:p-5">
 			<div className="card-body">
 				<div className="flex items-center">
 					<div className="flex-none">
