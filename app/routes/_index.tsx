@@ -1,4 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
+import { IconBrandGithub } from "@tabler/icons-react";
+
 import Nostr from "~/components/Nostr";
 
 export const meta: MetaFunction = () => {
@@ -10,9 +12,14 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
 	return (
-		<div className="w-dvw h-dvh overflow-hidden flex justify-center items-center p-5 bg-gray-300">
+		<div className="w-dvw h-dvh overflow-hidden flex justify-center items-center p-5 bg-gray-300 relative">
 			<div className="w-11/12">
 				<Nostr />
+			</div>
+			<div className="absolute bottom-3 right-3 text-md text-gray-500">
+				<a href="https://github.com/darashi/nostrasia2024">
+					<IconBrandGithub />
+				</a>
 			</div>
 		</div>
 	);
