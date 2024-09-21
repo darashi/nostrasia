@@ -5,3 +5,5 @@
 ```shellscript
 bun dev
 ```
+
+Open /nostrasia2024 in your browser.
