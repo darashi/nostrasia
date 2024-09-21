@@ -22,42 +22,44 @@ export default function Note({ event, profiles, currentTime }: Props) {
 	const pictureUrl = metadata?.picture;
 
 	return (
-		<div className="w-full h-full card card-bordered shadow-xl bg-white">
+		<div className="w-full h-full card card-bordered shadow-xl bg-white overflow-hidden">
 			<div className="card-body">
 				<div className="flex items-center">
 					<div className="flex-none">
 						{pictureUrl ? (
 							<img
-								className="w-32 h-32 w-max-32 h-max-32 rounded-full object-cover"
+								className="w-12 lg:w-32 rounded-full object-cover"
 								alt=""
 								src={pictureUrl}
 							/>
 						) : (
 							<div className="avatar placeholder">
-								<div className="bg-neutral w-32 rounded-full" />
+								<div className="bg-neutral w-12 lg:w-32 rounded-full" />
 							</div>
 						)}
 					</div>
-					<div className="mx-6 min-w-0 max-w-full">
+					<div className="mx-3 lg:mx-6 min-w-0 max-w-full">
 						<div>
 							{name ? (
-								<div className="leading-relaxed overflow-hidden text-ellipsis text-5xl">
+								<div className="leading-relaxed overflow-hidden text-ellipsis text-md lg:text-5xl">
 									{name}
 								</div>
 							) : (
-								<div className="leading-relaxed overflow-hidden text-ellipsis text-gray-500 text-5xl">
+								<div className="leading-relaxed overflow-hidden text-ellipsis text-gray-500 text-md lg:text-5xl">
 									{npub}
 								</div>
 							)}
-							<div className="text-3xl text-gray-500">
+							<div className="text-sm lg:text-3xl text-gray-500">
 								{time} ({relativeTime})
 							</div>
 						</div>
 					</div>
 				</div>
 
-				<div className="mt-10 break-words whitespace-pre-wrap">
-					<p className="text-6xl line-clamp-5 leading-snug">{content}</p>
+				<div className="mt-5 lg:mt-10 break-words whitespace-pre-wrap">
+					<p className="text-lg lg:text-5xl line-clamp-5 leading-snug">
+						{content}
+					</p>
 				</div>
 			</div>
 		</div>
