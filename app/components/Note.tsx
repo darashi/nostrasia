@@ -49,7 +49,7 @@ export default function Note({ event, profiles, currentTime }: Props) {
 									{npub}
 								</div>
 							)}
-							<div className="text-sm lg:text-3xl mt-1 lg:mt-5 text-gray-500">
+							<div className="text-sm lg:text-3xl lg:mt-5 text-gray-500">
 								{time} ({relativeTime})
 							</div>
 						</div>
@@ -57,7 +57,7 @@ export default function Note({ event, profiles, currentTime }: Props) {
 				</div>
 
 				<div className="mt-5 lg:mt-10 break-words whitespace-pre-wrap">
-					<p className="text-lg lg:text-5xl line-clamp-5 leading-snug">
+					<p className="text-lg lg:text-5xl line-clamp-5 leading-relaxed lg:leading-relaxed">
 						{content}
 					</p>
 				</div>
