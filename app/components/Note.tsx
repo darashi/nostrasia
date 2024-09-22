@@ -42,11 +42,11 @@ export default function Note({ event, profiles, currentTime }: Props) {
 					<div className="mx-3 lg:mx-6 min-w-0 max-w-full">
 						<div>
 							{name ? (
-								<div className="leading-relaxed overflow-hidden text-ellipsis text-md lg:text-5xl">
+								<div className="overflow-hidden text-ellipsis text-md lg:text-5xl leading-tight lg:leading-tight">
 									{name}
 								</div>
 							) : (
-								<div className="leading-relaxed overflow-hidden text-ellipsis text-gray-500 text-md lg:text-5xl">
+								<div className="overflow-hidden text-ellipsis text-md lg:text-5xl leading-tight lg:leading-tight text-gray-500">
 									{npub}
 								</div>
 							)}
