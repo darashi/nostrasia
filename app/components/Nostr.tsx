@@ -24,7 +24,7 @@ const profileRelays = [
 ];
 const tickInterval = 5_000;
 const notesBufferSize = 20;
-const query = "nostrasia";
+const queries = ["nostrasia", "のすあじ", "ノスアジ"];
 
 export default function NostrView() {
 	const profileReqRef = useRef<ReturnType<typeof createRxBackwardReq>>();
@@ -81,11 +81,13 @@ export default function NostrView() {
 				});
 			});
 
-		rxReq.emit({
-			kinds: [1],
-			limit: notesBufferSize,
-			search: query,
-		});
+		rxReq.emit(
+			queries.map((query) => ({
+				kinds: [1],
+				limit: notesBufferSize,
+				search: query,
+			})),
+		);
 
 		return () => {
 			noteSubscription.unsubscribe();
