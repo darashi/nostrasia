@@ -30,6 +30,7 @@ export default function Note({ event, profiles, currentTime }: Props) {
 							<img
 								className="w-12 lg:w-32 rounded-full object-cover"
 								alt=""
+								key={pictureUrl}
 								src={pictureUrl}
 							/>
 						) : (
