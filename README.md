@@ -6,4 +6,4 @@
 bun dev
 ```
 
-Open /nostrasia2024 in your browser.
+Open `/nostrasia2024/` in your browser.
