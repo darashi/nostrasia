@@ -1,4 +1,4 @@
-# Nostrasia 2024 app
+# Nostrasia app
 
 ## Development
 
@@ -6,4 +6,4 @@
 bun dev
 ```
 
-Open `/nostrasia2024/` in your browser.
+Open `/nostrasia/` in your browser.

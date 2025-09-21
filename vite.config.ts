@@ -5,11 +5,11 @@ import { copyFileSync } from "node:fs";
 import { join } from "node:path";
 
 export default defineConfig({
-	base: "/nostrasia2024/",
+	base: "/nostrasia/",
 	plugins: [
 		remix({
 			ssr: false,
-			basename: "/nostrasia2024/",
+			basename: "/nostrasia/",
 			buildEnd(args) {
 				if (!args.viteConfig.isProduction) return;
 				const buildPath = args.viteConfig.build.outDir;

@@ -5,8 +5,8 @@ import Nostr from "~/components/Nostr";
 
 export const meta: MetaFunction = () => {
 	return [
-		{ title: "Nostrasia 2024 Timeline" },
-		{ name: "description", content: "Nostrasia 2024" },
+		{ title: "Nostrasia Timeline" },
+		{ name: "description", content: "Nostrasia" },
 	];
 };
 
@@ -17,7 +17,7 @@ export default function Index() {
 				<Nostr />
 			</div>
 			<div className="absolute bottom-3 right-3 text-md text-gray-500">
-				<a href="https://github.com/darashi/nostrasia2024">
+				<a href="https://github.com/darashi/nostrasia">
 					<IconBrandGithub />
 				</a>
 			</div>
