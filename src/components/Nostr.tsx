@@ -10,19 +10,8 @@ import {
 import { verifier } from 'rx-nostr-crypto';
 import type * as Nostr from 'nostr-typedef';
 
+import { profileRelays, searchRelays } from '../config';
 import Note from './Note';
-
-const searchRelays = [
-	'wss://search.nos.today',
-	'wss://relay.nostr.band',
-	'wss://relay.noswhere.com',
-];
-
-const profileRelays = [
-	'wss://nos.lol',
-	'wss://yabu.me',
-	'wss://relay.damus.io',
-];
 
 const tickInterval = 5_000;
 const notesBufferSize = 20;
