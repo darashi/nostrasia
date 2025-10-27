@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
 	createRxBackwardReq,
 	createRxForwardReq,
@@ -37,6 +37,9 @@ export default function NostrView() {
 	const [displayed, setDisplayed] = useState<Record<string, Date>>({});
 	const [currentTime, setCurrentTime] = useState<Date>(new Date());
 	const [tick, setTick] = useState<number>(0);
+	const [indicatorHidden, setIndicatorHidden] = useState(false);
+	const noteContainerRef = useRef<HTMLDivElement>(null);
+	const indicatorRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		const rxNostr = createRxNostr({ verifier });
@@ -151,6 +154,39 @@ export default function NostrView() {
 		setEvent(next);
 	}, [tick]);
 
+	const currentIndex = event ? events.findIndex((item) => item.id === event.id) : -1;
+	const updateIndicatorVisibility = useCallback(() => {
+		if (!noteContainerRef.current || !indicatorRef.current) {
+			setIndicatorHidden(false);
+			return;
+		}
+
+		const noteRect = noteContainerRef.current.getBoundingClientRect();
+		const indicatorHeight = indicatorRef.current.offsetHeight ?? 0;
+		const bottomOffset = 24; // Keep in sync with bottom spacing in className.
+		const overlaps = noteRect.bottom + indicatorHeight + bottomOffset > window.innerHeight;
+		setIndicatorHidden(overlaps);
+	}, []);
+
+	useEffect(() => {
+		if (!event || events.length === 0) {
+			setIndicatorHidden(false);
+			return;
+		}
+
+		const frame = window.requestAnimationFrame(updateIndicatorVisibility);
+		return () => window.cancelAnimationFrame(frame);
+	}, [event?.id, events.length, updateIndicatorVisibility]);
+
+	useEffect(() => {
+		const handleResize = () => {
+			updateIndicatorVisibility();
+		};
+
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
+	}, [updateIndicatorVisibility]);
+
 	if (event === null) {
 		return (
 			<div className="text-center">
@@ -159,5 +195,35 @@ export default function NostrView() {
 		);
 	}
 
-	return <Note event={event} profiles={profiles} currentTime={currentTime} />;
+	return (
+		<div className="relative flex h-full flex-col">
+			<div ref={noteContainerRef} className="flex-1">
+				<Note event={event} profiles={profiles} currentTime={currentTime} />
+			</div>
+			{events.length > 0 ? (
+				<div
+					ref={indicatorRef}
+					className={`pointer-events-none fixed bottom-6 left-1/2 -translate-x-1/2 transform transition-all duration-200 ${
+						indicatorHidden ? 'translate-y-full opacity-0' : 'opacity-100'
+					}`}
+				>
+					<div className="flex items-center justify-center gap-3 text-gray-700">
+						{events.map((item) => {
+							const isActive = item.id === event.id;
+							return (
+								<span
+									key={item.id}
+									className={`rounded-full transition-all ${
+										isActive
+											? 'h-3 w-3 bg-gray-600 shadow-[0_0_0_4px_rgba(75,85,99,0.25)]'
+											: 'h-2 w-2 bg-gray-400'
+									}`}
+								/>
+							);
+						})}
+					</div>
+				</div>
+			) : null}
+		</div>
+	);
 }
