@@ -179,7 +179,7 @@ export default function NostrView() {
 	if (event === null) {
 		return (
 			<div className="text-center">
-				<span className="loading loading-dots loading-lg" />
+				<span className="loading loading-ring loading-lg" />
 			</div>
 		);
 	}
