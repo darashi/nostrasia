@@ -1,39 +1,39 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 import {
-	createRxNostr,
-	createRxForwardReq,
-	uniq,
 	createRxBackwardReq,
+	createRxForwardReq,
+	createRxNostr,
 	latestEach,
 	type EventPacket,
-} from "rx-nostr";
-import { verifier } from "rx-nostr-crypto";
-import type * as Nostr from "nostr-typedef";
+	uniq,
+} from 'rx-nostr';
+import { verifier } from 'rx-nostr-crypto';
+import type * as Nostr from 'nostr-typedef';
 
-import Note from "./Note";
+import Note from './Note';
 
 const searchRelays = [
-	"wss://search.nos.today",
-	"wss://relay.nostr.band",
-	"wss://relay.noswhere.com",
+	'wss://search.nos.today',
+	'wss://relay.nostr.band',
+	'wss://relay.noswhere.com',
 ];
+
 const profileRelays = [
-	"wss://nos.lol",
-	"wss://yabu.me",
-	"wss://relay.damus.io",
+	'wss://nos.lol',
+	'wss://yabu.me',
+	'wss://relay.damus.io',
 ];
+
 const tickInterval = 5_000;
 const notesBufferSize = 20;
-const queries = ["nostrasia", "のすあじ", "ノスアジ"];
+const queries = ['nostrasia', 'のすあじ', 'ノスアジ'];
 
 export default function NostrView() {
 	const profileReqRef = useRef<ReturnType<typeof createRxBackwardReq>>();
 	const rxNostrRef = useRef<ReturnType<typeof createRxNostr>>();
 	const [event, setEvent] = useState<Nostr.Event | null>(null);
 	const [events, setEvents] = useState<Nostr.Event[]>([]);
-	const [profiles, setProfiles] = useState<
-		Record<string, Nostr.Content.Metadata>
-	>({});
+	const [profiles, setProfiles] = useState<Record<string, Nostr.Content.Metadata>>({});
 	const [displayed, setDisplayed] = useState<Record<string, Date>>({});
 	const [currentTime, setCurrentTime] = useState<Date>(new Date());
 	const [tick, setTick] = useState<number>(0);
@@ -57,27 +57,29 @@ export default function NostrView() {
 		const noteSubscription = rxNostr
 			.use(rxReq, { on: { relays: searchRelays } })
 			.pipe(uniq())
-			.subscribe(({ event }) => {
-				if (!profiles[event.pubkey]) {
+			.subscribe(({ event: nostrEvent }) => {
+				if (!profiles[nostrEvent.pubkey]) {
 					profileReqRef.current?.emit({
 						kinds: [0],
-						authors: [event.pubkey],
+						authors: [nostrEvent.pubkey],
 						limit: 1,
 					});
 				}
+
 				setEvents((prev) => {
-					if (prev.some((e) => e.id === event.id)) {
+					if (prev.some((existing) => existing.id === nostrEvent.id)) {
 						return prev;
 					}
 
-					const newEvents = [event, ...prev];
-					newEvents.sort((a, b) => b.created_at - a.created_at);
-					newEvents.splice(notesBufferSize);
+					const updated = [nostrEvent, ...prev];
+					updated.sort((a, b) => b.created_at - a.created_at);
+					updated.splice(notesBufferSize);
 
 					if (prev.length === 0) {
-						setEvent(event);
+						setEvent(nostrEvent);
 					}
-					return newEvents;
+
+					return updated;
 				});
 			});
 
@@ -105,12 +107,15 @@ export default function NostrView() {
 
 		const profileSubscription = rxNostr
 			.use(profileReq, { on: { relays: profileRelays } })
-			.pipe(latestEach(({ event }) => event.pubkey))
+			.pipe(latestEach(({ event: nostrEvent }) => nostrEvent.pubkey))
 			.subscribe((packet: EventPacket) => {
-				const { event } = packet;
-				const profile = JSON.parse(event.content);
-				setProfiles((prev) => ({ ...prev, [event.pubkey]: profile }));
-				// TODO truncate profiles to vaoid memory leak
+				const { event: nostrEvent } = packet;
+				try {
+					const profile = JSON.parse(nostrEvent.content) as Nostr.Content.Metadata;
+					setProfiles((prev) => ({ ...prev, [nostrEvent.pubkey]: profile }));
+				} catch {
+					// Ignore malformed profile data.
+				}
 			});
 
 		return () => {
@@ -119,7 +124,7 @@ export default function NostrView() {
 	}, []);
 
 	useEffect(() => {
-		const interval = setInterval(() => {
+		const interval = window.setInterval(() => {
 			setTick((prev) => prev + 1);
 			setCurrentTime(new Date());
 		}, tickInterval);
@@ -129,18 +134,19 @@ export default function NostrView() {
 		};
 	}, []);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: this reacts to tick
+	// This effect intentionally depends only on tick to mimic the original timing behaviour.
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(() => {
 		if (events.length === 0) {
 			return;
 		}
 
-		// find the next event to display. neweset first.
-		let next = events.find((e) => !displayed[e.id]);
+		let next = events.find((item) => !displayed[item.id]);
 		if (!next) {
 			setDisplayed({});
 			next = events[0];
 		}
+
 		setDisplayed((prev) => ({ ...prev, [next.id]: new Date() }));
 		setEvent(next);
 	}, [tick]);

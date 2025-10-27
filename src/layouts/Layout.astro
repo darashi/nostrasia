@@ -1,0 +1,37 @@
+---
+import '../styles/tailwind.css';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { title = 'Nostrasia Timeline', description = 'Nostrasia' } =
+	Astro.props as Props;
+const base = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="en" class="h-full">
+		<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+			<link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+		/>
+		<title>{title}</title>
+	</head>
+	<body class="min-h-screen font-sans antialiased bg-gray-300">
+		<slot />
+	</body>
+</html>

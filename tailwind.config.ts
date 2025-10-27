@@ -1,15 +1,15 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
 
 export default {
-	content: ["./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}"],
+	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
 		extend: {
 			fontFamily: {
 				sans: [
 					'"Inter"',
-					"ui-sans-serif",
-					"system-ui",
-					"sans-serif",
+					'ui-sans-serif',
+					'system-ui',
+					'sans-serif',
 					'"Apple Color Emoji"',
 					'"Segoe UI Emoji"',
 					'"Segoe UI Symbol"',
@@ -18,5 +18,5 @@ export default {
 			},
 		},
 	},
-	plugins: [require("daisyui"), require("@tailwindcss/line-clamp")],
+	plugins: [],
 } satisfies Config;

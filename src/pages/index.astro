@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nostr from '../components/Nostr';
+import { IconBrandGithub } from '@tabler/icons-react';
+
+const title = 'Nostrasia Timeline';
+const description = 'Nostrasia';
+---
+
+<Layout {title} {description}>
+	<main class="relative flex min-h-screen w-full items-center justify-center overflow-hidden p-5">
+		<div class="w-11/12 lg:w-2/3">
+			<Nostr client:load />
+		</div>
+		<div class="absolute bottom-3 right-3 text-md text-gray-500">
+			<a href="https://github.com/darashi/nostrasia" aria-label="GitHub">
+				<IconBrandGithub className="h-6 w-6" />
+			</a>
+		</div>
+	</main>
+</Layout>
