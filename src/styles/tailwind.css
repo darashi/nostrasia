@@ -1,2 +1,43 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+/* DaisyUI 5 custom theme for Nostrasia 2025 */
+@layer utilities {
+	[data-theme='nostrasia2025'] {
+		--color-primary: #d75546;
+		--color-primary-content: #e9eef8;
+		--color-secondary: #395b4b;
+		--color-secondary-content: #2b0a12;
+		--color-accent: #3dd8c7;
+		--color-accent-content: #062720;
+		--color-neutral: #111821;
+		--color-neutral-content: #e8eef5;
+		--color-base-100: rgba(255, 248, 248, 0.1);
+		--color-base-200: rgba(255, 248, 248, 0.2);
+		--color-base-300: rgba(255, 248, 248, 0.3);
+		--color-base-content: #fff8f8;
+		--color-info: #5bb9f0;
+		--color-success: #4ccd82;
+		--color-warning: #f6bf3c;
+		--color-error: #f28b82;
+	}
+
+	@keyframes fade-in-out {
+		0% {
+			opacity: 0;
+		}
+		10% {
+			opacity: 1;
+		}
+		90% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0;
+		}
+	}
+
+	.animate-fade-in-out {
+		animation: fade-in-out 5s ease-in-out;
+	}
+}

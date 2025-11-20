@@ -22,13 +22,13 @@ export default function Note({ event, profiles, currentTime }: Props) {
 	const pictureUrl = metadata?.picture;
 
 	return (
-		<div className="card h-full w-full overflow-hidden bg-white text-black shadow-xl">
-			<div className="card-body p-5 lg:p-10">
+		<div className="card h-full w-full overflow-hidden rounded-[0.1rem] border-y border-base-content text-base-content backdrop-blur-[30px]">
+			<div className="card-body px-5 py-12 lg:px-10 lg:py-16">
 				<div className="flex items-center">
 					<div className="flex-none">
 						{pictureUrl ? (
 							<img
-								className="w-12 rounded-full object-cover lg:w-32"
+								className="h-12 w-12 rounded-full object-cover aspect-square lg:h-32 lg:w-32"
 								alt=""
 								key={pictureUrl}
 								src={pictureUrl}
@@ -42,15 +42,15 @@ export default function Note({ event, profiles, currentTime }: Props) {
 					<div className="mx-3 min-w-0 max-w-full lg:mx-6">
 						<div>
 							{name ? (
-								<div className="overflow-hidden text-ellipsis text-md leading-tight lg:text-5xl lg:leading-tight">
+								<div className="overflow-hidden text-ellipsis text-lg font-bold leading-tight lg:text-4xl lg:leading-tight">
 									{name}
 								</div>
 							) : (
-								<div className="overflow-hidden text-ellipsis text-md leading-tight text-gray-500 lg:text-5xl lg:leading-tight">
+								<div className="overflow-hidden text-ellipsis text-lg font-bold leading-tight text-base-content/70 lg:text-4xl lg:leading-tight">
 									{npub}
 								</div>
 							)}
-							<div className="text-sm text-gray-500 lg:mt-5 lg:text-3xl">
+							<div className="text-sm text-base-content/70 lg:mt-5 lg:text-3xl">
 								{time} ({relativeTime})
 							</div>
 						</div>

@@ -187,7 +187,9 @@ export default function NostrView() {
 	return (
 		<div className="relative flex h-full flex-col">
 			<div ref={noteContainerRef} className="flex-1">
-				<Note event={event} profiles={profiles} currentTime={currentTime} />
+				<div key={event.id} className="animate-fade-in-out h-full">
+					<Note event={event} profiles={profiles} currentTime={currentTime} />
+				</div>
 			</div>
 			{events.length > 0 ? (
 				<div
@@ -196,7 +198,7 @@ export default function NostrView() {
 						indicatorHidden ? 'translate-y-full opacity-0' : 'opacity-100'
 					}`}
 				>
-					<div className="flex items-center justify-center gap-3 text-gray-700">
+					<div className="flex items-center justify-center gap-3 text-base-content/80 animate-fade-in-out">
 						{events.map((item) => {
 							const isActive = item.id === event.id;
 							return (
@@ -204,8 +206,8 @@ export default function NostrView() {
 									key={item.id}
 									className={`rounded-full transition-all ${
 										isActive
-											? 'h-3 w-3 bg-gray-600 shadow-[0_0_0_4px_rgba(75,85,99,0.25)]'
-											: 'h-2 w-2 bg-gray-400'
+											? 'h-3 w-3 bg-primary'
+											: 'h-2 w-2 bg-base-content/40'
 									}`}
 								/>
 							);
