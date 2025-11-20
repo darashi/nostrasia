@@ -35,6 +35,14 @@ const base = import.meta.env.BASE_URL;
 		style={`background-image: url('${base}images/nostrasia2025.png');`}
 		class="min-h-screen font-sans antialiased bg-base-100 bg-cover bg-center bg-no-repeat"
 	>
+		<div class="pointer-events-none fixed right-8 top-8 z-10">
+			<img
+				src={`${base}images/nostrasia2025-logo.svg`}
+				alt="Nostrasia 2025"
+				class="h-16 w-auto"
+				loading="lazy"
+			/>
+		</div>
 		<slot />
 	</body>
 </html>
