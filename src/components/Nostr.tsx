@@ -18,8 +18,8 @@ const notesBufferSize = 20;
 const queries = ['nostrasia', 'のすあじ', 'ノスアジ'];
 
 export default function NostrView() {
-	const profileReqRef = useRef<ReturnType<typeof createRxBackwardReq>>();
-	const rxNostrRef = useRef<ReturnType<typeof createRxNostr>>();
+	const profileReqRef = useRef<ReturnType<typeof createRxBackwardReq>>(undefined);
+	const rxNostrRef = useRef<ReturnType<typeof createRxNostr>>(undefined);
 	const [event, setEvent] = useState<Nostr.Event | null>(null);
 	const [events, setEvents] = useState<Nostr.Event[]>([]);
 	const [profiles, setProfiles] = useState<Record<string, Nostr.Content.Metadata>>({});
