@@ -12,6 +12,7 @@ import type * as Nostr from 'nostr-typedef';
 
 import { profileRelays, searchRelays } from '../config';
 import Note from './Note';
+import ShapeStage, { supportsShapeStage } from './ShapeStage';
 
 const tickInterval = 5_000;
 const notesBufferSize = 20;
@@ -29,6 +30,12 @@ export default function NostrView() {
 	const [indicatorHidden, setIndicatorHidden] = useState(false);
 	const noteContainerRef = useRef<HTMLDivElement>(null);
 	const indicatorRef = useRef<HTMLDivElement>(null);
+	const [shapeStage, setShapeStage] = useState(false);
+	const disableShapeStage = useCallback(() => setShapeStage(false), []);
+
+	useEffect(() => {
+		setShapeStage(supportsShapeStage());
+	}, []);
 
 	useEffect(() => {
 		const rxNostr = createRxNostr({ verifier });
@@ -179,18 +186,28 @@ export default function NostrView() {
 	if (event === null) {
 		return (
 			<div className="text-center">
-				<span className="loading loading-ring loading-lg" />
+				<span className="loading loading-ring loading-lg text-pu" />
 			</div>
 		);
 	}
 
 	return (
 		<div className="relative flex h-full flex-col">
-			<div ref={noteContainerRef} className="flex-1">
-				<div key={event.id} className="animate-fade-in-out h-full">
-					<Note event={event} profiles={profiles} currentTime={currentTime} />
+			{shapeStage ? (
+				<ShapeStage
+					noteKey={event.id}
+					containerRef={noteContainerRef}
+					onUnsupported={disableShapeStage}
+				>
+					<Note event={event} profiles={profiles} currentTime={currentTime} corsImages />
+				</ShapeStage>
+			) : (
+				<div ref={noteContainerRef} className="flex-1">
+					<div key={event.id} className="animate-fade-in-out h-full">
+						<Note event={event} profiles={profiles} currentTime={currentTime} />
+					</div>
 				</div>
-			</div>
+			)}
 			{events.length > 0 ? (
 				<div
 					ref={indicatorRef}
@@ -198,16 +215,16 @@ export default function NostrView() {
 						indicatorHidden ? 'translate-y-full opacity-0' : 'opacity-100'
 					}`}
 				>
-					<div className="flex items-center justify-center gap-3 text-base-content/80 animate-fade-in-out">
+					<div className="flex items-center justify-center gap-2 animate-fade-in-out">
 						{events.map((item) => {
 							const isActive = item.id === event.id;
 							return (
 								<span
 									key={item.id}
-									className={`rounded-full transition-all ${
+									className={`transition-all ${
 										isActive
-											? 'h-3 w-3 bg-primary'
-											: 'h-2 w-2 bg-base-content/40'
+											? 'h-3.5 w-3.5 border-2 border-ink bg-pu'
+											: 'h-2 w-2 bg-ink/30'
 									}`}
 								/>
 							);
